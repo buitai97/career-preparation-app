@@ -21,15 +21,15 @@ Built with Express, TypeScript, Prisma, and PostgreSQL (Docker).
 ## 📦 Project Structure
 
 src/
-config/ # Prisma & environment config
-modules/ # Feature-based modules (auth, resume, interview)
-middleware/ # Express middleware (auth, error handling)
-app.ts
-server.ts
+config/ # Prisma & environment config <br>
+modules/ # Feature-based modules (auth, resume, interview) <br>
+middleware/ # Express middleware (auth, error handling) <br>
+app.ts <br>
+server.ts <br>
 
-prisma/
-├── schema.prisma
-└── migrations/
+prisma/ <br>
+├── schema.prisma <br>
+└── migrations/ <br>
 
 docker-compose.yml
 
