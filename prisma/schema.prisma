@@ -13,36 +13,53 @@ datasource db {
     provider = "postgresql"
 }
 
+enum ResumeSectionType {
+    EDUCATION
+    EXPERIENCE
+    SKILLS
+    PROJECT
+    OTHER
+}
+
 model User {
     id        String   @id @default(uuid())
     name      String
     email     String   @unique
     password  String
     createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
 
     resumes  Resume[]
     sessions InterviewSession[]
 }
 
 model Resume {
-    id        String   @id @default(uuid())
-    userId    String
-    title     String
-    createdAt DateTime @default(now())
+    id             String          @id @default(uuid())
+    userId         String
+    title          String
+    createdAt      DateTime        @default(now())
+    updatedAt      DateTime        @default(now()) @updatedAt
+    resumeSections ResumeSection[]
 
-    resumeSections    ResumeSection[]
-    user              User               @relation(fields: [userId], references: [id])
+    user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
     interviewSessions InterviewSession[]
+
+    @@index([userId])
 }
 
 model ResumeSection {
-    id       String @id @default(uuid())
-    resumeId String
-    order    Int
-    type     String
-    content  Json
+    id        String   @id @default(uuid())
+    resumeId  String
+    order     Int
+    type      ResumeSectionType
+    content   Json
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
 
-    resume Resume @relation(fields: [resumeId], references: [id])
+    resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+    @@index([resumeId])
+    @@index([resumeId, order])
 }
 
 model InterviewSession {
@@ -50,11 +67,15 @@ model InterviewSession {
     userId    String
     role      String
     createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
     resumeId  String?
 
-    resume    Resume?             @relation(fields: [resumeId], references: [id])
+    resume    Resume?             @relation(fields: [resumeId], references: [id], onDelete: SetNull)
     questions InterviewQuestion[]
-    user      User                @relation(fields: [userId], references: [id])
+    user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([resumeId])
 }
 
 model InterviewQuestion {
@@ -63,7 +84,9 @@ model InterviewQuestion {
     question  String
 
     answers InterviewAnswer[]
-    session InterviewSession  @relation(fields: [sessionId], references: [id])
+    session InterviewSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+    @@index([sessionId])
 }
 
 model InterviewAnswer {
@@ -71,16 +94,21 @@ model InterviewAnswer {
     questionId String
     answer     String
 
-    question InterviewQuestion @relation(fields: [questionId], references: [id])
+    question InterviewQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
     feedback AnswerFeedback?
+
+    @@index([questionId])
 }
 
 model AnswerFeedback {
     id           String @id @default(uuid())
     answerId     String @unique
-    score        Int
+    score        Float
     strengths    String
     improvements String
+    createdAt     DateTime @default(now())
 
-    answer InterviewAnswer @relation(fields: [answerId], references: [id])
+    answer InterviewAnswer @relation(fields: [answerId], references: [id], onDelete: Cascade)
+
+    @@index([answerId])
 }
