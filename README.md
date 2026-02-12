@@ -55,12 +55,13 @@ docker compose down -v
 
 ## ⚙️ Environment Variables
 
-Create a .env file in the project root:
+Create a .env file in the project root and add your KEYS:
 
 ```bash
 DATABASE_URL=postgresql://postgres:postgres@localhost:5433/career_prep
 PORT=5000
-OPENAI_API_KEY=""
+OPENAI_API_KEY=YOUR_OPENAI_API_KEY
+SECRET_KEY=YOUR_JWT_SECRET_KEY
 ```
 
 ## 📦 Install Dependencies
