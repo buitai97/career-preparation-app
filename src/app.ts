@@ -2,9 +2,9 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./modules/auth/auth.routes";
 import resumeRoutes from "./modules/resume/resume.routes";
+import interviewRoutes from "./modules/interview/interview.routes";
 
 const app = express();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -17,4 +17,6 @@ app.get("/health", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/resumes", resumeRoutes);
+app.use("/api/interviews", interviewRoutes);
+
 export default app;
