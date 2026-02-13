@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoutes from "./modules/auth/auth.routes";
 import resumeRoutes from "./modules/resume/resume.routes";
 import interviewRoutes from "./modules/interview/interview.routes";
+import { errorHandler } from "./middleware/error.middleware";
 
 const app = express();
 app.use(express.json());
@@ -19,4 +20,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/resumes", resumeRoutes);
 app.use("/api/interviews", interviewRoutes);
 
+
+app.use(errorHandler);
 export default app;

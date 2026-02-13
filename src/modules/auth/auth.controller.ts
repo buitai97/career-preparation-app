@@ -4,7 +4,7 @@ import { generateToken } from "../../utils/jwt";
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password } = req.body
 
         const user = await registerUser(name, email, password);
 
@@ -25,7 +25,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.body
 
         const user = await loginUser(email, password);
 
