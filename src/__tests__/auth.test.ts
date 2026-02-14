@@ -1,16 +1,17 @@
 import request from "supertest";
-import app from "../../app";
-import prisma from "../../config/prisma";
-import { clearDatabase } from "./helpers/clearDatabase";
-import { createTestUser } from "./helpers/createTestUser";
+import app from "../app";
+import prisma from "../config/prisma";
+import { clearDatabase } from "../test-utils/clearDatabase";
+import { createTestUser } from "../test-utils/createTestUser";
 
-afterEach(async () => {
-    await clearDatabase();
-});
-afterAll(async () => {
-    await prisma.$disconnect();
-});
+
 describe("Auth Routes", () => {
+    afterEach(async () => {
+        await clearDatabase();
+    });
+    afterAll(async () => {
+        await prisma.$disconnect();
+    });
     it("should register a user", async () => {
         const email = `test-${Date.now()}@example.com`;
         const password = "123456";
