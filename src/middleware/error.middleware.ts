@@ -24,6 +24,8 @@ export const errorHandler = (
         });
     }
 
+
+
     // JWT errors
     if (err.name === "JsonWebTokenError") {
         return res.status(401).json({
@@ -32,10 +34,21 @@ export const errorHandler = (
         });
     }
 
-    console.error("Unhandled error:", err);
-
+    if (err instanceof Error) {
+        return res.status(400).json({
+            success: false,
+            message: err.message,
+        });
+    }
+    if (err.status) {
+        return res.status(err.status).json({
+            success: false,
+            message: err.message,
+        });
+    }
     return res.status(500).json({
         success: false,
-        message: "Internal server error",
+        message: err.message || "Internal server error",
     });
+
 };

@@ -7,15 +7,27 @@ import { errorHandler } from "./middleware/error.middleware";
 import { globalRateLimiter } from "./middleware/rateLimit.middleware";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
-
+import { debug } from "util";
+import cookieParser from "cookie-parser";
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 app.use(globalRateLimiter);
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors(
+    {
+        origin: process.env.FRONTEND_URL,
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+        credentials: true,
+    }
+));
 
 // Import routes
-
+app.get('/', (req, res) => {
+    debug('GET / called');
+    res.send('API running');
+});
 app.get("/health", (req, res) => {
     res.json({ status: "OK" });
 });

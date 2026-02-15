@@ -4,7 +4,10 @@ import bcrypt from "bcrypt";
 export const registerUser = async (name: string, email: string, password: string,) => {
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
-        throw new Error("Email already in use");
+        throw {
+            status: 400,
+            message: "Email already in use",
+        }
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
@@ -24,14 +27,20 @@ export const loginUser = async (email: string, password: string) => {
     });
 
     if (!user) {
-        throw new Error("Invalid credentials");
+        throw {
+            status: 401,
+            message: "Invalid credentials",
+        };
     }
 
 
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
-        throw new Error("Invalid credentials");
+        throw {
+            status: 401,
+            message: "Invalid credentials",
+        };
     }
 
     return user;

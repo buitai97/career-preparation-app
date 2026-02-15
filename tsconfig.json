@@ -9,7 +9,8 @@
         "skipLibCheck": true,
         "types": [
             "jest"
-        ]
+        ],
+        "sourceMap": true
     },
     "include": [
         "src/**/*.ts",

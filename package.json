@@ -7,7 +7,8 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "test": "jest",
     "build": "prisma generate && esbuild src/server.ts --bundle --platform=node --target=node20 --outfile=dist/server.js --external:bcrypt --external:prisma --external:@prisma/client",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "debug": "ts-node-dev --respawn --inspect --transpile-only src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -16,8 +17,11 @@
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
     "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
+    "debug": "^4.4.3",
     "dotenv": "^17.2.4",
+    "esbuild": "^0.27.3",
     "express": "^5.2.1",
     "express-rate-limit": "^8.2.1",
     "install": "^0.13.0",
@@ -27,11 +31,11 @@
     "prisma": "^7.3.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
-    "zod": "^4.3.6",
-    "esbuild": "^0.27.3"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
@@ -41,6 +45,7 @@
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
     "jest": "^30.2.0",
+    "nodemon": "^3.1.11",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.6",
     "ts-node-dev": "^2.0.0",
