@@ -6,7 +6,6 @@ export const registerUser = async (name: string, email: string, password: string
     if (existingUser) {
         throw new Error("Email already in use");
     }
-
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
         data: {
@@ -27,6 +26,7 @@ export const loginUser = async (email: string, password: string) => {
     if (!user) {
         throw new Error("Invalid credentials");
     }
+
 
     const isValid = await bcrypt.compare(password, user.password);
 
