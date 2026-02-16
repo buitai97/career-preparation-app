@@ -22,7 +22,6 @@ describe("Auth Routes", () => {
             .send({ name, email, password });
 
         expect(res.statusCode).toBe(201);
-        expect(res.body.token).toBeDefined();
         expect(res.body.user.email).toBe(email);
     });
 
@@ -39,19 +38,16 @@ describe("Auth Routes", () => {
     });
 
     it("should login a user", async () => {
-        const user = await createTestUser();
+        const res = await createTestUser();
         const loginRes = await request(app)
             .post("/api/auth/login")
             .send({
-                email: user.email,
-                password: user.password,
+                email: res.email,
+                password: res.password //
             });
-
         expect(loginRes.statusCode).toBe(200);
-        expect(loginRes.body.token).toBeDefined();
-        expect(loginRes.body.user).toBeDefined();
-        expect(loginRes.body.user.email).toBe(user.email);
-        expect(loginRes.body.user.name).toBe(user.name);
+        expect(loginRes.body.user.email).toBe(res.email);
+        expect(loginRes.body.user.name).toBe(res.name);
         expect(loginRes.body.user.password).toBeUndefined();
         expect(loginRes.body.user.id).toBeDefined();
     });

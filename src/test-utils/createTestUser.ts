@@ -14,7 +14,6 @@ export async function createTestUser() {
         email,
         password,
         name,
-        token: res.body.token,
         user: res.body.user,
     };
 }

@@ -24,17 +24,23 @@ describe("Protected Routes", () => {
     it("should deny access with invalid token", async () => {
         const res = await request(app)
             .get("/api/resumes")
-            .set("Authorization", "Bearer invalid-token");
+            .set("Cookie", ["token=invalid-token"]);
 
         expect(res.statusCode).toBe(401);
     });
 
     it("should allow access with valid token", async () => {
         const user = await createTestUser();
-
+        const loginRes = await request(app)
+            .post("/api/auth/login")
+            .send({
+                email: user.email,
+                password: user.password
+            });
+        const cookies = loginRes.headers["set-cookie"];
         const res = await request(app)
             .get("/api/resumes")
-            .set("Authorization", `Bearer ${user.token}`);
+            .set("Cookie", cookies);
 
         expect(res.statusCode).not.toBe(401);
     });
